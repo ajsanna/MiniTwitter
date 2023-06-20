@@ -19,6 +19,8 @@
 
 
 	//imports
+import java.util.Date;
+import java.text.SimpleDateFormat;
   import javax.swing.*;
   import java.awt.*;
   import javax.imageio.*;
@@ -100,8 +102,12 @@ public class UserViewPage extends JPanel implements Window
 					Tweet newTweet = tweetCenter.postTweet(name);
 					user.addTweet(newTweet);
 					ArrayList<User> refreshers = user.getFollowedBy();
+					long time = System.currentTimeMillis();
+					user.update(time);
+					Driver.startPanel("adminView");
 					for(User x : refreshers)
 					{
+						x.update(time);
 						Driver.register.getUVObject(x).refreshView();
 					}
 					
@@ -165,7 +171,7 @@ public class UserViewPage extends JPanel implements Window
 		Font font1 = new Font("MonoSpaced", Font.BOLD, 30);
         Font font2 = new Font("Dialog", Font.PLAIN, 12);
 		Font font3 = new Font("Dialog", Font.ITALIC,15);
-
+		Font font4 = new Font("MonoSpaced",Font.ITALIC, 10); 
 		Graphics2D x1 = (Graphics2D) x;
         
 		x1.setFont(font1);
@@ -226,7 +232,19 @@ public class UserViewPage extends JPanel implements Window
 		}
 		//adds the users own tweets to their timeline, at the bottom for less precedence. 
 
-
+		Graphics2D x4 = (Graphics2D) x;
+        
+		x4.setFont(font4);
+        x4.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        x4.setColor(Color.black);
+		long time = user.getCreationTime();
+		SimpleDateFormat sdf = new SimpleDateFormat("MMM dd,yyyy HH:mm");    
+		Date resultdate = new Date(time);
+		x4.drawString("User Created: " + sdf.format(resultdate),10,10);
+		long updateTime = user.getRecentUpdateTime();
+		SimpleDateFormat df = new SimpleDateFormat("MMM dd,yyyy HH:mm");    
+		Date updateDate = new Date(updateTime);
+		x4.drawString("Last Update: " + df.format(updateDate),10,21);
 
 
 		try

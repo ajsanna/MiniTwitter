@@ -17,9 +17,10 @@ import java.util.ArrayList;
 
 public class Group 
 {
+
 	private String groupName;
 	private int ID;
-	
+	private long creationTime;
 	private ArrayList<User> members;
 	private int numOfMembers;
 
@@ -31,6 +32,12 @@ public class Group
 		this.ID = ID;
 		members = new ArrayList<>();
 		numOfMembers =0;
+		creationTime = System.currentTimeMillis();
+	}
+
+	public long getCreationTime()
+	{
+		return creationTime;
 	}
 
 	public ArrayList<User> getMembers()

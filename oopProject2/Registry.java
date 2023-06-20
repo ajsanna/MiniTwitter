@@ -57,6 +57,60 @@ public class Registry
 		groups.add(x);
 
 	}
+	public int getMostRecentUpdatedUser()
+	{
+		int target = 0; 
+		if(userReferences.size() == 0)
+		{
+			return 0000;
+		}
+		if(userReferences.size() == 1)
+		{
+			return userReferences.get(0).getID();
+		}
+		target = userReferences.get(0).getID();
+		for(int i = 0; i < userReferences.size()-1; i ++)
+		{
+			if(userReferences.get(i).getRecentUpdateTime()<userReferences.get(i+1).getRecentUpdateTime())
+			{
+				target = userReferences.get(i+1).getID();
+			}
+		}
+		
+		return target;
+
+	}
+
+	public boolean checkValidity()
+	{
+		ArrayList<Integer> processedIds = new ArrayList<>();
+		for(User x : userReferences)
+		{
+			if(!takenIDs.contains(x.getID()))
+			{
+				return false;
+			}
+			if(processedIds.contains(x.getID()))
+			{
+				return false;
+			}
+			processedIds.add(x.getID());
+		}
+		for(Group z : groups)
+		{
+			if(!takenIDs.contains(z.getID()))
+			{
+				return false;
+			}
+			if(processedIds.contains(z.getID()))
+			{
+				return false;
+			}
+			processedIds.add(z.getID());
+		}
+		
+		return true; 
+	}
 
 	//this is the addition of a iserView object. 
 	public void addUV(UserView x)

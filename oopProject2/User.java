@@ -15,6 +15,8 @@ import java.util.ArrayList;
 
 public class User 
 {
+	private long mostRecentUpdate;
+	private long creationTime;
 	private String username;
 	private int ID;
 	private ArrayList<User> following;
@@ -33,10 +35,24 @@ public class User
 		myGroup = null;
 		tweets = new ArrayList<>();
 		inGroup = false;
+		creationTime = System.currentTimeMillis();
+		mostRecentUpdate = creationTime;
 	}
 	public void addFollowedBy(User x)
 	{
 		followedBy.add(x);
+	}
+	public long getCreationTime()
+	{
+		return creationTime;
+	}
+	public void update(long time)
+	{
+		mostRecentUpdate = time;
+	}
+	public long getRecentUpdateTime()
+	{
+		return mostRecentUpdate;
 	}
 
 	public ArrayList<User> getFollowedBy()

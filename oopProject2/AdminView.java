@@ -25,14 +25,10 @@ public class AdminView extends JPanel implements Window
 	private static int counter = 0; 
 	public static AdminView reference = new AdminView();
 	private UserView uV; 
+	
 	//private fields 
 
-	public UserView getUVObject()
-	{
-		return uV;
-	}
-	//accessor 
-    
+	
     //constructor is private. singleton design. 
     private AdminView() 
 	{
@@ -59,6 +55,8 @@ public class AdminView extends JPanel implements Window
         statistics.setToolTipText("Open Statistics Menu");
         JButton userView = new HomeButton("Show User View", 350, 320);
         userView.setToolTipText("Switch to user perspective");
+		JButton checkValid = new HomeButton("Check Validity", 180, 20);
+        userView.setToolTipText("Validate distinct IDs");
 		// these are all buttons being displayed to the screen. 
 
 		final JFrame parent = new JFrame();
@@ -89,17 +87,44 @@ public class AdminView extends JPanel implements Window
 		/* 
 		 * Action listener on the userview to prompt for an ID. 
 		 */
-    
+		
+
+		checkValid.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent evt) 
+			{
+				if(Driver.register.checkValidity())
+				{
+					JOptionPane.showMessageDialog(parent,
+                "All users are valid.");
+				}
+				else
+				{
+					JOptionPane.showMessageDialog(parent,
+                "Error! Repeat ID detected!");
+				}
+            }
+        });
+
+		
+
+
        
         this.add(createUser);
         this.add(createGroup);
         this.add(statistics);
         this.add(userView);
+		this.add(checkValid);
 		//add everything to the screen.
         
         
         
     } //end HomePanel constructor
+    public UserView getUVObject()
+	{
+		return uV;
+	}
+	//accessor 
     
     // method: getPreferredSize
     // purpose: This method sets the dimensions to 600x400
@@ -156,6 +181,18 @@ public class AdminView extends JPanel implements Window
 		}
 		
 	//this code is for the tree view. 
+		Font font4 = new Font("MonoSpaced",Font.ITALIC, 10); 
+		Graphics2D x4 = (Graphics2D) x;
+        
+		x4.setFont(font4);
+        x4.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        x4.setColor(Color.black);
+		int idNum = Driver.register.getMostRecentUpdatedUser();
+		if(idNum != 0)
+		{
+			x4.drawString("Most Recently Updated: " + idNum,10,10);
+		}
+		
 
 
 		//Driver.test();
